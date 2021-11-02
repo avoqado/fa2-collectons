@@ -1,0 +1,20 @@
+import fs from "fs";
+
+const name = "skele";
+const raw = fs.readFileSync("skele.json");
+const {
+  data: { token: skeles },
+} = JSON.parse(raw);
+
+const optimized = skeles.map(({ id, title, display_uri }) => ({
+  i: id,
+  t: title,
+  u: display_uri.substring(7),
+}));
+
+fs.writeFile(`min/${name}_min.json`, JSON.stringify(optimized), (err) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+});
